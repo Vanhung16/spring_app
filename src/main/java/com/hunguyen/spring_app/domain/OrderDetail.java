@@ -18,10 +18,10 @@ public class OrderDetail implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderDetailId;
-    @Column(name = "oderId", nullable = false)
-    private int orderId;
-    @Column(name = "productId", nullable = false)
-    private int productId;
+//    @Column(name = "oderId", nullable = false)
+//    private int orderId;
+//    @Column(name = "productId", nullable = false)
+//    private int productId;
     @Column(name = "quantity", nullable = false)
     private int quantity;
     @Column(name = "unitPrice", nullable = false)

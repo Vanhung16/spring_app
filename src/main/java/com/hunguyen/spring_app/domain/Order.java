@@ -21,13 +21,16 @@ public class Order implements Serializable {
     private int orderId;
     @Temporal(TemporalType.DATE)
     private Date orderDate;
-    @Column(name = "customerId", nullable = false)
-    private int customerId;
+//    @Column(name = "customerId", nullable = false)
+//    private int customerId;
     @Column(name = "amount", nullable = false)
     private double amount;
     @Column(name = "status", nullable = false)
     private short status;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderDetail> orderDetails;
+    @ManyToOne
+    @JoinColumn(name = "customerId")
+    private Customer customer;
 
 }
