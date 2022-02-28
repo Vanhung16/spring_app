@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.springframework.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{admin/dasboard.html}" >
+<head>
+
+</head>
+<body>
+<section class="row" layout:fragment="content">
+        <div class="col mt-4">
+                <form action="/admin/products/saveOrUpdate" method="post" enctype="multipart/form-data" th:object="${product}">
+                        <div class="card">
+                                <div class="card-header">
+                                <h2>Add New Product</h2>
+                                </div>
+                                <div class="card-body">
+                                <div class="row">
+                                        <div class="col-7">
+                                        <div class="form-group">
+                                                <label for="productId">Product ID:</label>
+                                                <input type="text" th:field="*{productId}" readonly
+                                                class="form-control" name="productId" id="productId" aria-describedby="productIdHid" placeholder="Product ID">
+                                                <small id="productIdHid" class="form-text text-muted">Product ID is required</small>
+                                        </div>
+                
+                                        <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <input type="text" th:field="*{name}"
+                                                class="form-control" name="name" id="name" aria-describedby="nameHid" placeholder="Name">
+                                                <small id="nameHid" class="form-text text-muted">Name is required</small>
+                                        </div>  
+                
+                                        <div class="form-group">
+                                                <label for="quantity">Quantity</label>
+                                                <input type="text" th:field="*{quantity}"
+                                                 class="form-control" name="quantity" id="quantity" aria-describedby="quantityHid" placeholder="Quantity">
+                                                <small id="quantityHid" class="form-text text-muted">Quantity is required</small>
+                                        </div>
+                
+                                        <div class="input-group form-group">
+                                                <span class="input-group-text">Unit Price</span>
+                                                <input type="number" th:field="*{unitPrice}"
+                                                name="unitPrice" id="unitPrice" class="form-control" placeholder="Unit Price">
+                                                <span class="input-group-text">$</span>
+                                        </div>
+                
+                
+                                        <div class="form-group">
+                                                <label for="categoryId">Category</label>
+                                                <select class="form-control" th:field="*{categoryId}"
+                                                 name="categoryId" id="categoryId">
+                                                <option th:each="item : ${categories}" th:value="${item.categoryId}" 
+                                                th:text="${item.name}" th:selected="${item.categoryId == product.categoryId}" >category name</option>
+                                                
+                                               
+                                                </select>
+                                        </div>
+                
+                                        
+                                        </div>
+                                        <div class="col-3">
+                                                <script>
+                                                        function chooseFile(fileInput) {
+                                                                if (fileInput.files && fileInput.files[0]){
+                                                                        var reader = new FileReader();
+
+                                                                        reader.onload = function (e){
+                                                                                $('#image').attr('src', e.target.result);
+                                                                        }
+
+                                                                        reader.readAsDataURL(fileInput.files[0]);
+                                                                }
+                                                        }
+                                                </script>
+
+                                        <img id="image" src="/images/no-image.jpg" width="90%" class="img-fluid" alt="">
+                                        <div class="form-group">
+                                                <label for="productImage">Image File</label>
+                                                <input type="file" onchange="chooseFile(this)" class="form-control-file" name="productImage" id="imageFile" placeholder="Product Image" aria-describedby="productImageHid">
+                                                <small id="productImageHid" class="form-text text-muted">Product Image is required</small>
+                                        </div>
+                                        
+                                        <div class="input-group form-group" >
+                                                <span class="input-group-text">Discount</span>
+                                                <input type="number" th:field="*{discount}"
+                                                name="discount" id="discount" class="form-control" placeholder="Discount">
+                                                <span class="input-group-text">%</span>
+                                        </div>
+                                        <div class="form-group">
+                                                <label for="status">Status</label>
+                                                <select class="form-control" name="status" id="status" th:field="*{status}">
+                                                <option value="0">Out of Stock</option>
+                                                <option value="1">On Sell</option>
+                                                <option value="2">Featured</option>
+                                                <option value="3">Bestseller</option>
+                                                <option value="4">Out of Oder</option>
+                                                </select>
+                                        </div>
+                                        </div>                                
+                                </div>
+                                <div class="row">
+                                        <div class="col">
+                                        <div class="form-group">
+                                        <label for="decription">Description</label>
+                                        <textarea class="form-control" name="decription" id="decription" rows="5" th:field="*{description}"></textarea>
+                                        </div>
+                                        </div>
+                                </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                <a class="btn btn-success">New</a>
+                                <button class="btn btn-primary">Save</button>
+                                <a class="btn btn-danger float-right">Delete</a>
+                                </div>
+                        </div>
+                </form>
+                </div>
+</section>
+</body>
+</html>
