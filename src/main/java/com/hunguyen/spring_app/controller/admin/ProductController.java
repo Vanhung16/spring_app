@@ -7,6 +7,8 @@ import com.hunguyen.spring_app.model.CategoryDTO;
 import com.hunguyen.spring_app.model.ProductDTO;
 import com.hunguyen.spring_app.service.CategoryService;
 import com.hunguyen.spring_app.service.ProductService;
+import com.hunguyen.spring_app.service.StorageService;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -34,6 +37,9 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    StorageService storageService;
 
     public List<CategoryDTO> getCategories() {
         return categoryService.findAll().stream().map(item -> {
@@ -74,8 +80,22 @@ public class ProductController {
         if(result.hasErrors())    {
             return new ModelAndView("admin/products/addOrEdit");
         }
+
         Product entity = new Product();
         BeanUtils.copyProperties(dto, entity);
+
+        Category category = new Category();
+        category.setCategoryId(dto.getCategoryId());
+        entity.setCategory(category);
+
+        if(!dto.getImageFile().isEmpty()){
+            UUID uuid = UUID.randomUUID();
+            String uuString = uuid.toString();
+
+            entity.setImage(storageService.getStoredFilename(dto.getImageFile(), uuString));
+            storageService.store(dto.getImageFile(), entity.getImage());
+        }
+
         productService.save(entity);
         model.addAttribute("message", "product is saved!");
 
