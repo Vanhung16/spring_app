@@ -11,7 +11,7 @@ layout:decorate="~{admin/dasboard.html}" >
                 <form action="/admin/products/saveOrUpdate" method="post" enctype="multipart/form-data" th:object="${product}">
                         <div class="card">
                                 <div class="card-header">
-                                <h2>Add New Product</h2>
+                                <h2 th:text="${product.isEdit?'Edit product':'Add new product'}">Add New Product</h2>
                                 </div>
                                 <div class="card-body">
                                 <div class="row">
@@ -55,8 +55,7 @@ layout:decorate="~{admin/dasboard.html}" >
                                                
                                                 </select>
                                         </div>
-                
-                                        
+
                                         </div>
                                         <div class="col-3">
                                                 <script>
@@ -76,8 +75,8 @@ layout:decorate="~{admin/dasboard.html}" >
                                         <img id="image" src="/images/no-image.jpg" width="90%" class="img-fluid" alt="">
                                         <div class="form-group">
                                                 <label for="productImage">Image File</label>
-                                                <input type="file" onchange="chooseFile(this)" class="form-control-file" name="productImage" id="imageFile" placeholder="Product Image" aria-describedby="productImageHid">
-                                                <small id="productImageHid" class="form-text text-muted">Product Image is required</small>
+                                                <input type="file" onchange="chooseFile(this)" class="form-control-file" name="imageFile" id="imageFile" placeholder="Product Image" aria-describedby="imageFileHid">
+                                                <small id="imageFile" class="form-text text-muted">Product Image is required</small>
                                         </div>
                                         
                                         <div class="input-group form-group" >
@@ -108,9 +107,9 @@ layout:decorate="~{admin/dasboard.html}" >
                                 </div>
                                 </div>
                                 <div class="card-footer text-muted">
-                                <a class="btn btn-success">New</a>
-                                <button class="btn btn-primary">Save</button>
-                                <a class="btn btn-danger float-right">Delete</a>
+                                <a th:href="@{/admin/products/add}" class="btn btn-success">New</a>
+                                <button class="btn btn-primary" th:text="${product.isEdit?'Update':'Save'}">Save</button>
+                                <a th:href="@{'/admin/products/delete/' + ${product.productId}}" class="btn btn-danger float-right">Delete</a>
                                 </div>
                         </div>
                 </form>

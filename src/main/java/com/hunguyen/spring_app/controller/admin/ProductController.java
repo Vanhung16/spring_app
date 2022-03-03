@@ -41,6 +41,7 @@ public class ProductController {
     @Autowired
     StorageService storageService;
 
+    @ModelAttribute("categories")
     public List<CategoryDTO> getCategories() {
         return categoryService.findAll().stream().map(item -> {
             CategoryDTO dto = new CategoryDTO();
@@ -64,7 +65,10 @@ public class ProductController {
             Product entity = opt.get();
 
             BeanUtils.copyProperties(entity, dto);
+
+            dto.setCategoryId(entity.getCategory().getCategoryId());
             dto.setIsEdit(true);
+            
             model.addAttribute("category", dto);
             System.out.println(model.addAttribute("category", dto));
             return new ModelAndView("admin/products/addOrEdit", model);
@@ -83,12 +87,13 @@ public class ProductController {
 
         Product entity = new Product();
         BeanUtils.copyProperties(dto, entity);
-
+        
         Category category = new Category();
         category.setCategoryId(dto.getCategoryId());
         entity.setCategory(category);
 
-        if(!dto.getImageFile().isEmpty()){
+
+        if(! dto.getImageFile().isEmpty()){
             UUID uuid = UUID.randomUUID();
             String uuString = uuid.toString();
 

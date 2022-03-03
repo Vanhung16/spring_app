@@ -15,11 +15,15 @@ layout:decorate="~{admin/dasboard.html}"
                 <h2>List of Products</h2>
             </div>
             <div class="card-body">
+              <div class="alert alert-primary" role="alert" th:if="${mesage != null}">
+                <strong>[[${mesage}]]</strong>
+              </div>
+
                 <table class="table table-striped table-inverse ">
                     <thead class="thead-inverse">
                         <tr>
                             <th><input type="checkbox" class="form-check-inline" ></th>
-                            <th></th>
+                            <th>&nbsp;</th>
                             <th>Name</th>
                             <th>Quantity</th>
                             <th>Unit Price</th>
@@ -30,36 +34,23 @@ layout:decorate="~{admin/dasboard.html}"
                         </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr th:each="product, iStat : ${products}">
                                 <td scope="row"><input type="checkbox" class="form-check-inline"></td>
-                                <td><img src="/images/mh.jfif" width="70" class="img-fluid" alt=""></td>
-                                <td>Hat</td>
-                                <td>500</td>
-                                <td>50.4</td>
-                                <td>5%</td>
-                                <td>Bestseller</td>
-                                <td>Clothers</td>
+                                <td><img th:src="${product.image}" width="70" class="img-fluid" alt=""></td>
+                                <td th:text="${product.name}">Hat</td>
+                                <td th:text="${product.quantity}">500</td>
+                                <td th:text="${product.unitPrice}">500</td>
+                                <td th:text="${product.discount}">500</td>
+                                <td th:text="${product.status}">500</td>
+                                <td th:text="${product.category.name}">500</td>
+                                
                                 <td>
-                                    <a href="" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
-                                    <a href="" class="btn btn-outline-info"><i class="fas fa-info"></i></a>
-                                    <a href="" class="btn btn-outline-danger"><i class="fas fa-recycle"></i></a>
+                                  <a th:href="@{'/admin/products/view/' + ${product.productId}}" class="btn btn-outline-info"><i class="fas fa-info"></i></a>
+                                  <a th:href="@{'/admin/products/edit/' + ${product.productId}}" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
+                                  <a th:href="@{'/admin/products/delete/' + ${product.productId}}" class="btn btn-outline-danger"><i class="fas fa-recycle"></i></a>
                                 </td>
                             </tr>
-                            <tr>
-                              <td scope="row"><input type="checkbox" class="form-check-inline"></td>
-                              <td><img src="/images/mh.jfif" width="70" class="img-fluid" alt=""></td>
-                              <td>Hat</td>
-                              <td>500</td>
-                              <td>50.4</td>
-                              <td>5%</td>
-                              <td>Bestseller</td>
-                              <td>Clothers</td>
-                              <td>
-                                  <a href="" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
-                                  <a href="" class="btn btn-outline-info"><i class="fas fa-info"></i></a>
-                                  <a href="" class="btn btn-outline-danger"><i class="fas fa-recycle"></i></a>
-                              </td>
-                          </tr>
+                           
                             
                         </tbody>
                 </table>
