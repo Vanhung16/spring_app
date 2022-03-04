@@ -73,8 +73,8 @@ public class ProductController {
             dto.setCategoryId(entity.getCategory().getCategoryId());
             dto.setIsEdit(true);
             
-            model.addAttribute("category", dto);
-            
+            model.addAttribute("product", dto);
+
             return new ModelAndView("admin/products/addOrEdit", model);
         }
         model.addAttribute("message", "product is not exits");
@@ -103,7 +103,6 @@ public class ProductController {
         category.setCategoryId(dto.getCategoryId());
         entity.setCategory(category);
 
-
         if(! dto.getImageFile().isEmpty()){
             UUID uuid = UUID.randomUUID();
             String uuString = uuid.toString();
@@ -113,7 +112,14 @@ public class ProductController {
         }
 
         productService.save(entity);
-        model.addAttribute("message", "product is saved!");
+
+        if(dto.getIsEdit() == true){
+            model.addAttribute("message", "product is updated!");
+        }else{
+            model.addAttribute("message", "product is saved!");
+
+        }
+
 
         return new ModelAndView("forward:/admin/products",model);
     }
@@ -128,7 +134,8 @@ public class ProductController {
     @RequestMapping(value = "delete/{productId}", method = RequestMethod.GET)
     public ModelAndView delete(ModelMap model ,@PathVariable Long productId){
         productService.deleteById(productId);
-        return new ModelAndView("forward:/admin/products/search",model);
+        model.addAttribute("message", "product is deleted!");
+        return new ModelAndView("forward:/admin/products",model);
     }
     
     // @RequestMapping(value = "search", method = RequestMethod.GET)
