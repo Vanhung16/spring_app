@@ -12,11 +12,14 @@ layout:decorate="~{admin/dasboard.html}" >
                         <div class="card">
                                 <div class="card-header">
                                 <h2 th:text="${product.isEdit?'Edit product':'Add new product'}">Add New Product</h2>
+                                <h2 >Add New Product</h2>
                                 </div>
                                 <div class="card-body">
                                 <div class="row">
                                         <div class="col-7">
-                                        <div class="form-group">
+                                                <input type="hidden" th:field="*{isEdit}">
+                                        <div class="form-group" th:if="${product.isEdit}" >
+                                                <!-- th:if="${product.isEdit}" -->
                                                 <label for="productId">Product ID:</label>
                                                 <input type="text" th:field="*{productId}" readonly
                                                 class="form-control" name="productId" id="productId" aria-describedby="productIdHid" placeholder="Product ID">
@@ -72,7 +75,9 @@ layout:decorate="~{admin/dasboard.html}" >
                                                         }
                                                 </script>
 
-                                        <img id="image" src="/images/no-image.jpg" width="90%" class="img-fluid" alt="">
+                                        <img id="image" 
+                                        th:src="${product.image != null? '/admin/products/images/' + product.image : 'images/no-image.jpg'}"
+                                        src="/images/no-image.jpg" width="90%" class="img-fluid" alt="">
                                         <div class="form-group">
                                                 <label for="productImage">Image File</label>
                                                 <input type="file" onchange="chooseFile(this)" class="form-control-file" name="imageFile" id="imageFile" placeholder="Product Image" aria-describedby="imageFileHid">
@@ -109,7 +114,7 @@ layout:decorate="~{admin/dasboard.html}" >
                                 <div class="card-footer text-muted">
                                 <a th:href="@{/admin/products/add}" class="btn btn-success">New</a>
                                 <button class="btn btn-primary" th:text="${product.isEdit?'Update':'Save'}">Save</button>
-                                <a th:href="@{'/admin/products/delete/' + ${product.productId}}" class="btn btn-danger float-right">Delete</a>
+                                <a th:href="@{'/admin/products/delete/' + ${product.productId}}" class="btn btn-danger float-right" th:if="${product.isEdit}">Delete</a>
                                 </div>
                         </div>
                 </form>

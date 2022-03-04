@@ -3,7 +3,6 @@ package com.hunguyen.spring_app.controller.admin;
 import com.hunguyen.spring_app.domain.Category;
 import com.hunguyen.spring_app.domain.Product;
 import com.hunguyen.spring_app.model.CategoryDTO;
-// import com.hunguyen.spring_app.model.CategoryDTO;
 import com.hunguyen.spring_app.model.ProductDTO;
 import com.hunguyen.spring_app.service.CategoryService;
 import com.hunguyen.spring_app.service.ProductService;
@@ -11,10 +10,13 @@ import com.hunguyen.spring_app.service.StorageService;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -52,7 +54,9 @@ public class ProductController {
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String add(ModelMap model){
-        model.addAttribute("product", new ProductDTO());
+        ProductDTO dto = new ProductDTO();
+        dto.setIsEdit(false);
+        model.addAttribute("product", dto);
         return "admin/products/addOrEdit";
     }
 
@@ -70,11 +74,18 @@ public class ProductController {
             dto.setIsEdit(true);
             
             model.addAttribute("category", dto);
-            System.out.println(model.addAttribute("category", dto));
+            
             return new ModelAndView("admin/products/addOrEdit", model);
         }
         model.addAttribute("message", "product is not exits");
         return new ModelAndView("forward:/admin/products", model);
+    }
+    @RequestMapping(value = "/images/{filename:.+}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename){
+        Resource file = storageService.loadAsResource(filename);
+
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
     @RequestMapping(value = "saveOrUpdate", method = RequestMethod.POST)

@@ -25,5 +25,5 @@ public class ProductDTO {
     private short status;
     private Long CategoryId;
 
-    private Boolean isEdit = false;
+    private Boolean isEdit;
 }

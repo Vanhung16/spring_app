@@ -36,7 +36,7 @@ layout:decorate="~{admin/dasboard.html}"
                         <tbody>
                             <tr th:each="product, iStat : ${products}">
                                 <td scope="row"><input type="checkbox" class="form-check-inline"></td>
-                                <td><img th:src="${product.image}" width="70" class="img-fluid" alt=""></td>
+                                <td><img th:src="@{product.image}" width="70" class="img-fluid" alt=""></td>
                                 <td th:text="${product.name}">Hat</td>
                                 <td th:text="${product.quantity}">500</td>
                                 <td th:text="${product.unitPrice}">500</td>
