@@ -41,7 +41,7 @@ public class AccountController {
         accountService.save(entity);
         modelMap.addAttribute("message", "account is saved!");
 
-        return new ModelAndView("forward:/admin/accounts", modelMap);
+        return new ModelAndView("redirect:/admin/accounts", modelMap);
     }
     @GetMapping("edit/{username}")
     public ModelAndView edit(ModelMap model, @PathVariable String username){
