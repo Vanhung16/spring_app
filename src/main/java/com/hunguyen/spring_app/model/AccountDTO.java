@@ -18,4 +18,6 @@ public class AccountDTO implements Serializable{
     private String username;
     @NotEmpty
     private String password;
+
+    private Boolean isEdit;
 }
