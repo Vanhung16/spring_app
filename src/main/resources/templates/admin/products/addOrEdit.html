@@ -8,6 +8,10 @@ layout:decorate="~{admin/dasboard.html}" >
 <body>
 <section class="row" layout:fragment="content">
         <div class="col mt-4">
+
+                
+
+
                 <form action="/admin/products/saveOrUpdate" method="post" enctype="multipart/form-data" th:object="${product}">
                         <div class="card">
                                 <div class="card-header">
@@ -75,8 +79,8 @@ layout:decorate="~{admin/dasboard.html}" >
                                                 </script>
 
                                         <img id="image" 
-                                        th:src="${product.image != null? '/admin/products/images/' + product.image : 'images/no-image.jpg'}"
-                                        src="/images/no-image.jpg" width="90%" class="img-fluid" alt="">
+                                        th:src="${product.image == null? '/images/no-image.jpg' : '/admin/products/images/' + product.image}"
+                                         width="90%" class="img-fluid" alt="">
                                         <div class="form-group">
                                                 <label for="productImage">Image File</label>
                                                 <input type="file" onchange="chooseFile(this)" class="form-control-file" name="imageFile" id="imageFile" placeholder="Product Image" aria-describedby="imageFileHid">
@@ -115,8 +119,12 @@ layout:decorate="~{admin/dasboard.html}" >
                                 <button class="btn btn-primary" th:text="${product.isEdit?'Update':'Save'}">Save</button>
                                 <a th:href="@{'/admin/products/delete/' + ${product.productId}}" class="btn btn-danger float-right" th:if="${product.isEdit}">Delete</a>
                                 </div>
+
+
                         </div>
                 </form>
+                
+               
                 </div>
 </section>
 </body>

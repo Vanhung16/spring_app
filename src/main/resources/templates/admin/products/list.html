@@ -38,7 +38,7 @@ layout:decorate="~{admin/dasboard.html}"
                         <tbody>
                             <tr th:each="product, iStat : ${products}">
                                 <td scope="row"><input type="checkbox" class="form-check-inline"></td>
-                                <td><img th:src="${product.image != null? '/admin/products/images/' + product.image : 'images/no-image.jpg'}" width="70" class="img-fluid" alt=""></td>
+                                <td><img th:src="${product.image == null? '/images/no-image.jpg' : '/admin/products/images/' + product.image }" width="70" class="img-fluid" alt=""></td>
                                 <td th:text="${product.name}">Hat</td>
                                 <td th:text="${product.quantity}">500</td>
                                 <td th:text="${product.unitPrice}">500</td>
@@ -49,7 +49,13 @@ layout:decorate="~{admin/dasboard.html}"
                                 <td>
                                   <a th:href="@{'/admin/products/view/' + ${product.productId}}" class="btn btn-outline-info"><i class="fas fa-info"></i></a>
                                   <a th:href="@{'/admin/products/edit/' + ${product.productId}}" class="btn btn-outline-warning"><i class="fas fa-edit"></i></a>
-                                  <a th:attr="data-id=${product.productId}, data-name=${product.name}" onclick="confirmdel(this.getAttribute('data-id'), this.getAttribute('data-name'))" class="btn btn-outline-danger"><i class="fas fa-recycle"></i></a>
+                                  
+                                  <a th:data-id="${product.productId}" th:data-name="${product.name}" 
+                                  onclick="confirmDel(this.getAttribute('data-id'), this.getAttribute('data-name'))" 
+                                  class="btn btn-outline-danger">
+                                  <i class="fas fa-recycle"></i>
+                                  </a>
+
                                 </td>
                             </tr>
                            
@@ -61,7 +67,7 @@ layout:decorate="~{admin/dasboard.html}"
                 function confirmDel(id, name){
                   $('#productName').text(name);
                   $('#yesOption').attr('href', '/admin/products/delete/' + id);
-                  $('#modelId').show();
+                  $('#modelId').modal('show');
                 }
               </script>
                 <!-- Modal -->
@@ -69,17 +75,17 @@ layout:decorate="~{admin/dasboard.html}"
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Bạn chắc chắn chứ!</h5>
+                        <h5 class="modal-title">cảnh báo</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                       </div>
                       <div class="modal-body">
-                        Body
+                        Bạn chắc chắn muốn xóa sản phẩm có tên là <span id="productName"></span>
                       </div>
                       <div class="modal-footer">
-                        <a id="yesOption" type="button" class="btn btn-secondary" data-dismiss="modal">Yes</a>
-                        <button type="button" class="btn btn-primary">No</button>
+                        <a id="yesOption" type="button" class="btn btn-danger">Yes</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                       </div>
                     </div>
                   </div>
