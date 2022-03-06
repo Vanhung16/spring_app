@@ -5,6 +5,7 @@ import com.hunguyen.spring_app.model.AccountDTO;
 import com.hunguyen.spring_app.service.AccountService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,9 @@ import javax.validation.Valid;
 public class AccountController {
     @Autowired
     AccountService accountService ;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     @GetMapping("add")
     public String add(ModelMap model){
         AccountDTO accountDTO = new AccountDTO();
@@ -38,10 +42,12 @@ public class AccountController {
         }
         Account entity = new Account();
         BeanUtils.copyProperties(dto, entity);
+        // entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
+
         accountService.save(entity);
         modelMap.addAttribute("message", "account is saved!");
 
-        return new ModelAndView("redirect:/admin/accounts", modelMap);
+        return new ModelAndView("forward:/admin/accounts", modelMap);
     }
     @GetMapping("edit/{username}")
     public ModelAndView edit(ModelMap model, @PathVariable String username){

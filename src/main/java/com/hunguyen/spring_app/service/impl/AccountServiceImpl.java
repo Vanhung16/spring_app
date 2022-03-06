@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,7 +21,11 @@ import java.util.function.Function;
 @Service
 public class AccountServiceImpl implements AccountService {
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Override
     public List<Account> findAll() {
@@ -184,6 +189,9 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public <S extends Account> S save(S entity) {
+
+        entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
+
         return accountRepository.save(entity);
     }
 
