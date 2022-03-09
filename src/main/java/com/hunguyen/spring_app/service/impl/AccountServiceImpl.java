@@ -28,6 +28,18 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
+    public Account login(String username, String password){
+        Optional<Account> optExist = findById(username);
+
+        if(optExist.isPresent() && bCryptPasswordEncoder.matches(password, optExist.get().getPassword())){
+            optExist.get().setPassword("");
+            return optExist.get();
+        }
+        return null;
+    }
+
+
+    @Override
     public List<Account> findAll() {
         return accountRepository.findAll();
     }

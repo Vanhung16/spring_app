@@ -42,7 +42,6 @@ public class AccountController {
         }
         Account entity = new Account();
         BeanUtils.copyProperties(dto, entity);
-        // entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
 
         accountService.save(entity);
         modelMap.addAttribute("message", "account is saved!");

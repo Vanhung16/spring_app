@@ -14,6 +14,8 @@ import java.util.function.Function;
 public interface AccountService {
 
 
+    Account login(String username, String password);
+
     List<Account> findAll();
 
     List<Account> findAll(Sort sort);
