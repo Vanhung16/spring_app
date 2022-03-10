@@ -36,8 +36,9 @@ public class AdminLoginController {
         if(result.hasErrors()){
             return new ModelAndView("/admin/accounts/login", model);
         }
-        Account account = accountService.login(dto.getUsername(), dto.getUsername());
-
+        Account account = accountService.login(dto.getUsername(), dto.getPassword());
+        System.out.println(account);
+        System.out.print("/");
         if(account == null){
             model.addAttribute("message", "Invalid username or password");
             return new ModelAndView("/admin/accounts/login", model);

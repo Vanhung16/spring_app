@@ -34,8 +34,10 @@ public class AccountServiceImpl implements AccountService {
         if(optExist.isPresent() && bCryptPasswordEncoder.matches(password, optExist.get().getPassword())){
             optExist.get().setPassword("");
             return optExist.get();
-        }
+        }else{
+        // return optExist.get();
         return null;
+        }
     }
 
 
