@@ -9,10 +9,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,7 +50,7 @@ public class AccountController {
 
         return new ModelAndView("forward:/admin/accounts", modelMap);
     }
-    @GetMapping("edit/{username}")
+    @PutMapping("edit/{username}")
     public ModelAndView edit(ModelMap model, @PathVariable String username){
         Optional<Account> opt = accountService.findById(username);
         AccountDTO dto = new AccountDTO();
@@ -71,7 +73,7 @@ public class AccountController {
         model.addAttribute("accounts", accounts);
         return "/admin/accounts/list";
     }
-    @GetMapping("delete/{username}")
+    @DeleteMapping("delete/{username}")
     public ModelAndView delete(ModelMap model, @PathVariable String username){
         if(accountService.findById(username).isPresent()){
             accountService.deleteById(username);

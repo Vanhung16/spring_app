@@ -60,7 +60,7 @@ public class ProductController {
         return "admin/products/addOrEdit";
     }
 
-    @RequestMapping(value = "edit/{productId}", method = RequestMethod.GET)
+    @RequestMapping(value = "edit/{productId}", method = RequestMethod.PUT)
     public ModelAndView edit(ModelMap model, @PathVariable("productId") Long productId){
 
         Optional<Product> opt = productService.findById(productId);
@@ -131,7 +131,7 @@ public class ProductController {
         return "admin/products/list";
     }
 
-    @RequestMapping(value = "delete/{productId}", method = RequestMethod.GET)
+    @RequestMapping(value = "delete/{productId}", method = RequestMethod.DELETE)
     public ModelAndView delete(ModelMap model ,@PathVariable Long productId){
         productService.deleteById(productId);
         model.addAttribute("message", "product is deleted!");

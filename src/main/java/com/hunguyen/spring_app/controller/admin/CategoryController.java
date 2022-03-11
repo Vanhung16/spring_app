@@ -38,7 +38,7 @@ public class CategoryController {
         model.addAttribute("category", new CategoryDTO());
         return "admin/categories/addOrEdit";
     }
-    @RequestMapping(value = "edit/{categoryId}", method = RequestMethod.GET)
+    @RequestMapping(value = "edit/{categoryId}", method = RequestMethod.PUT)
     public ModelAndView edit(ModelMap model, @PathVariable("categoryId") Long categoryId){
 
         Optional<Category> opt = categoryService.findById(categoryId);
@@ -78,7 +78,7 @@ public class CategoryController {
         return "admin/categories/list";
     }
 
-    @RequestMapping(value = "delete/{categoryId}", method = RequestMethod.GET)
+    @RequestMapping(value = "delete/{categoryId}", method = RequestMethod.DELETE)
     public ModelAndView delete(ModelMap model ,@PathVariable Long categoryId){
         categoryService.deleteById(categoryId);
         model.addAttribute("message", "delete category have categoryId "+ categoryId +" succees");
